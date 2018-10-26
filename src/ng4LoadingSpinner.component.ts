@@ -11,10 +11,9 @@ import { Subscription } from 'rxjs';
   selector: 'ng4-loading-spinner',
   templateUrl: './ng4LoadingSpinner.component.html',
   styleUrls: ['./ng4LoadingSpinner.component.css'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class Ng4LoadingSpinnerComponent implements OnDestroy {
-
   /**
    * @description Default loading spinner template
    * @memberof Ng4LoadingSpinnerComponent
@@ -28,7 +27,6 @@ export class Ng4LoadingSpinnerComponent implements OnDestroy {
    */
   _loadingText = '';
 
-
   /**
    * @description Defines threhold for not to diplay if time is less than 500ms
    * @memberof Ng4LoadingSpinnerComponent
@@ -40,7 +38,7 @@ export class Ng4LoadingSpinnerComponent implements OnDestroy {
    * @type {number}
    * @memberof Ng4LoadingSpinnerComponent
    */
-  _timeout = 5000;
+  _timeout = 0;
 
   /**
    * @description Defines z-index property of the loading text
@@ -52,7 +50,8 @@ export class Ng4LoadingSpinnerComponent implements OnDestroy {
    * @description Sets z-index for input text
    * @memberof Ng4LoadingSpinnerComponent
    */
-  @Input() public set zIndex(value: number) {
+  @Input()
+  public set zIndex(value: number) {
     this._zIndex = value;
   }
 
@@ -74,7 +73,6 @@ export class Ng4LoadingSpinnerComponent implements OnDestroy {
     this._template = value;
   }
 
-
   /**
    * @description Gives the current template
    * @readonly
@@ -83,7 +81,6 @@ export class Ng4LoadingSpinnerComponent implements OnDestroy {
   public get template(): string {
     return this._template;
   }
-
 
   /**
    * @description Accepts loading text string
@@ -94,7 +91,6 @@ export class Ng4LoadingSpinnerComponent implements OnDestroy {
     this._loadingText = value;
   }
 
-
   /**
    * @description Gives loading text
    * @readonly
@@ -103,7 +99,6 @@ export class Ng4LoadingSpinnerComponent implements OnDestroy {
   public get loadingText(): string {
     return this._loadingText;
   }
-
 
   /**
    * @description Accepts external threshold
@@ -114,9 +109,8 @@ export class Ng4LoadingSpinnerComponent implements OnDestroy {
     this._threshold = value;
   }
 
-
   /**
-   * @description 
+   * @description
    * @readonly
    * @memberof Ng4LoadingSpinnerComponent
    */
@@ -133,9 +127,8 @@ export class Ng4LoadingSpinnerComponent implements OnDestroy {
     this._timeout = value;
   }
 
-
   /**
-   * @description 
+   * @description
    * @readonly
    * @type {number}
    * @memberof Ng4LoadingSpinnerComponent
@@ -161,9 +154,7 @@ export class Ng4LoadingSpinnerComponent implements OnDestroy {
    * @param spinnerService Spinner Service
    * @memberof Ng4LoadingSpinnerComponent
    */
-  constructor(
-    private spinnerService: Ng4LoadingSpinnerService
-  ) {
+  constructor(private spinnerService: Ng4LoadingSpinnerService) {
     this.createServiceSubscription();
   }
 
@@ -183,29 +174,36 @@ export class Ng4LoadingSpinnerComponent implements OnDestroy {
     let thresholdTimer: any;
     let timeoutTimer: any;
 
-    this.subscription =
-      this.spinnerService.getMessage().subscribe(show => {
-        if (show) {
-          if (thresholdTimer) {
-            return;
-          }
-          thresholdTimer = setTimeout(function() {
+    this.subscription = this.spinnerService.getMessage().subscribe(show => {
+      if (show) {
+        if (thresholdTimer) {
+          return;
+        }
+        thresholdTimer = setTimeout(
+          function() {
             thresholdTimer = null;
             this.showSpinner = show;
-            timeoutTimer = setTimeout(function() {
-              timeoutTimer = null;
-              this.showSpinner = false;
-            }.bind(this), this.timeout);
-          }.bind(this), this.threshold);
-        } else {
-          if (thresholdTimer) {
-            clearTimeout(thresholdTimer);
-            thresholdTimer = null;
-          }
-          clearTimeout(timeoutTimer);
-          timeoutTimer = null;
-          this.showSpinner = false;
+            if (this.timeout > 0) {
+              timeoutTimer = setTimeout(
+                function() {
+                  timeoutTimer = null;
+                  this.showSpinner = false;
+                }.bind(this),
+                this.timeout
+              );
+            }
+          }.bind(this),
+          this.threshold
+        );
+      } else {
+        if (thresholdTimer) {
+          clearTimeout(thresholdTimer);
+          thresholdTimer = null;
         }
-      });
+        clearTimeout(timeoutTimer);
+        timeoutTimer = null;
+        this.showSpinner = false;
+      }
+    });
   }
 }
