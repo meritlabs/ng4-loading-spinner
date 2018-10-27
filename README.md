@@ -41,10 +41,24 @@ Custom loading template & loading text inputs are also available.
 
 ## Build and deploy
 
+> Checkout to dist branch
+
 `git checkout dist`
+
+> Grab fresh code from master
+
 `git merge master`
+
+> Install dependencies
+
 `yarn`
+
+> Build new version
+
 `yarn run build`
+
+> Push new version to the dist branch
+
 `git add . && git commit -m"Update" && git push`
 
 ## Usage
