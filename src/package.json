@@ -3,7 +3,7 @@
   "version": "1.2.4",
   "repository": {
     "type": "git",
-    "url": "https://github.com/amitmahida92/ng4-loading-spinner"
+    "url": "https://github.com/meritlabs/ng4-loading-spinner"
   },
   "author": {
     "name": "Amit Mahida",
@@ -36,9 +36,9 @@
   ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/amitmahida92/ng4-loading-spinner/issues"
+    "url": "https://github.com/meritlabs/ng4-loading-spinner/issues"
   },
-  "homepage": "https://github.com/amitmahida92/ng4-loading-spinner",
+  "homepage": "https://github.com/meritlabs/ng4-loading-spinner",
   "main": "ng4-loading-spinner.umd.js",
   "module": "ng4-loading-spinner.js",
   "jsnext:main": "ng4-loading-spinner.js",
