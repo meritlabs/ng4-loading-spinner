@@ -55,7 +55,7 @@ Custom loading template & loading text inputs are also available.
 
 > Build new version
 
-`yarn run build`
+`yarn build`
 
 > Push new version to the dist branch
 
